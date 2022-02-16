@@ -36,13 +36,15 @@ def to_usd(my_price):
     """
     return f"${my_price:,.2f}" #> $12,000.71
 
-
+#while True:
 # TODO: write some Python code here to produce the desired output
 
 #ASK FOR USER INPUT
 #fix while loop for non-number invalid input
 while product_ID != "DONE":
     product_ID = input("Please input a product identifier: ")
+    #if product_ID = "DONE":
+    #    break
 
 #LOOK UP CORRESPONDING PRODUCTS
 
