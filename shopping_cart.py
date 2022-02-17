@@ -1,6 +1,7 @@
 # shopping_cart.py
 
 import os
+from datetime import datetime
 
 #allow the user to input their own tax rate by passing an environment variable called TAX_RATE
 tax_rate = os.getenv("TAX_RATE", default=0)
@@ -61,7 +62,7 @@ while True:
 
     #LOOK UP CORRESPONDING PRODUCTS & PRICES
     
-    try: #makes sure user only enters numeric data
+    try: #makes sure user only enters numeric data / loop goes on despite non-numeric data
         for x in products:
             if x["id"] == int(product_ID):  #this is a match
                 matching_products.append(x["name"])
@@ -69,5 +70,28 @@ while True:
     except:
         print("Invalid. Please only enter numeric data or DONE when finished.")
 
-print(matching_products)
-print(sum(matching_prices))
+now = datetime.now()
+date_time = now.strftime("%m/%d/%Y %H:%M")
+
+billTotal = sum(matching_prices)
+taxTotal = billTotal*(tax_rate/100)
+total = billTotal + taxTotal
+
+print("---------------------------------")
+print("GEORGETOWN GROCERIES")
+print("WWW.GEORGETOWN-GROCERIES.COM")
+print("---------------------------------")
+print("CHECKOUT AT:", date_time)
+print("---------------------------------")
+print("SELECTED PRODUCTS:")
+
+for x in in matching_products:
+    indexNum = matching_products.index(x)
+    print("...", x, "("+ matching_products(indexNum) +")")
+print("---------------------------------")
+print("SUBTOTAL:", billTotal)
+print("TAX:", taxTotal)
+print("TOTAL:", total)
+print("---------------------------------")
+print("THANKS, SEE YOU AGAIN SOON!")
+print("---------------------------------")
