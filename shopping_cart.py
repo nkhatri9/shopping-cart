@@ -1,5 +1,12 @@
 # shopping_cart.py
 
+import os
+
+#allow the user to input their own tax rate by passing an environment variable called TAX_RATE
+tax_rate = os.getenv("TAX_RATE", default=0)
+print(tax_rate)
+
+
 products = [
     {"id":1, "name": "Chocolate Sandwich Cookies", "department": "snacks", "aisle": "cookies cakes", "price": 3.50},
     {"id":2, "name": "All-Seasons Salt", "department": "pantry", "aisle": "spices seasonings", "price": 4.99},
@@ -50,14 +57,14 @@ while product_ID != "DONE":
 
 #print the product that has an ID attribute equal to "9"
 
-matching_products = []
+##matching_products = []
 
-for x in products:
+##for x in products:
    # if x == 3:
    #    ___.append(x)
-   print(x["id"])
-   if x["id"] == int(product_ID):
+   ##print(x["id"])
+   ##if x["id"] == int(product_ID):
        #this is a match
-       matching_products.append
+       ##matching_products.append
 
-    print(matching_products)
+    ##print(matching_products)
