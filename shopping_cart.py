@@ -4,7 +4,6 @@ import os
 
 #allow the user to input their own tax rate by passing an environment variable called TAX_RATE
 tax_rate = os.getenv("TAX_RATE", default=0)
-print(tax_rate)
 
 
 products = [
@@ -43,28 +42,32 @@ def to_usd(my_price):
     """
     return f"${my_price:,.2f}" #> $12,000.71
 
-#while True:
-# TODO: write some Python code here to produce the desired output
-
-#ASK FOR USER INPUT
+# TODO
 #fix while loop for non-number invalid input
-while product_ID != "DONE":
+
+print("This system will help you check items out!")
+print("To use it, enter product identifiers for each item or enter DONE when finished.")
+print()
+
+matching_products = []
+matching_prices = []
+product_ID = "wrongInput"
+
+while True:
     product_ID = input("Please input a product identifier: ")
-    #if product_ID = "DONE":
-    #    break
 
-#LOOK UP CORRESPONDING PRODUCTS
+    if product_ID.lower() == "done": #allows user to exit while loop when out of products
+        break
 
-#print the product that has an ID attribute equal to "9"
+    #LOOK UP CORRESPONDING PRODUCTS & PRICES
+    
+    try: #makes sure user only enters numeric data
+        for x in products:
+            if x["id"] == int(product_ID):  #this is a match
+                matching_products.append(x["name"])
+                matching_prices.append(x["price"])
+    except:
+        print("Invalid. Please only enter numeric data or DONE when finished.")
 
-##matching_products = []
-
-##for x in products:
-   # if x == 3:
-   #    ___.append(x)
-   ##print(x["id"])
-   ##if x["id"] == int(product_ID):
-       #this is a match
-       ##matching_products.append
-
-    ##print(matching_products)
+print(matching_products)
+print(sum(matching_prices))
