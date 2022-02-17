@@ -74,7 +74,7 @@ now = datetime.now()
 date_time = now.strftime("%m/%d/%Y %H:%M")
 
 billTotal = sum(matching_prices)
-taxTotal = billTotal*(tax_rate/100)
+taxTotal = billTotal*(float(tax_rate)/100)
 total = billTotal + taxTotal
 
 print("---------------------------------")
@@ -85,13 +85,13 @@ print("CHECKOUT AT:", date_time)
 print("---------------------------------")
 print("SELECTED PRODUCTS:")
 
-for x in in matching_products:
+for x in matching_products:
     indexNum = matching_products.index(x)
-    print("...", x, "("+ matching_products(indexNum) +")")
+    print("...", x, "("+ str(to_usd(matching_prices[indexNum])) +")")
 print("---------------------------------")
-print("SUBTOTAL:", billTotal)
-print("TAX:", taxTotal)
-print("TOTAL:", total)
+print("SUBTOTAL:", to_usd(billTotal))
+print("TAX:", to_usd(taxTotal))
+print("TOTAL:", to_usd(total))
 print("---------------------------------")
 print("THANKS, SEE YOU AGAIN SOON!")
 print("---------------------------------")
