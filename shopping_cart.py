@@ -70,6 +70,7 @@ while True:
     except:
         print("Invalid. Please only enter numeric data or DONE when finished.")
 
+#find date and time
 now = datetime.now()
 date_time = now.strftime("%m/%d/%Y %H:%M")
 
@@ -95,3 +96,72 @@ print("TOTAL:", to_usd(total))
 print("---------------------------------")
 print("THANKS, SEE YOU AGAIN SOON!")
 print("---------------------------------")
+
+emailReceipt = "stesd" #set initial value to random string to ensure while loop runs
+
+while emailReceipt.lower() != "yes" and emailReceipt.lower() != "no":
+    print()
+    print("Would the customer like a receipt to be emailed to them?")
+    emailReceipt = input("Please enter Yes or No: ")
+
+if emailReceipt.lower() == "yes":
+    import os
+    from dotenv import load_dotenv
+    from sendgrid import SendGridAPIClient
+    from sendgrid.helpers.mail import Mail
+
+    load_dotenv()
+
+    SENDGRID_API_KEY = os.getenv("SENDGRID_API_KEY", default="OOPS, please set env var called 'SENDGRID_API_KEY'")
+    SENDER_ADDRESS = os.getenv("SENDER_ADDRESS", default="OOPS, please set env var called 'SENDER_ADDRESS'")
+    customer_address = input("Please input the customer's email address: ")
+
+    client = SendGridAPIClient(SENDGRID_API_KEY) #> <class 'sendgrid.sendgrid.SendGridAPIClient>
+    print("CLIENT:", type(client))
+
+    subject = "Your Receipt from the Green Grocery Store"
+
+    ###############CREATE EMAIL RECEIPT#####################
+
+    
+    html_list_items = "<li>You ordered:</li>"
+
+    for x in matching_products:
+        indexNum = matching_products.index(x)
+        priceString = str(to_usd(matching_prices[indexNum]))
+        productAndPriceString = x + " ("+ str(to_usd(matching_prices[indexNum])) +")"
+        html_list_items += "<li>"+productAndPriceString+"</li>"
+
+    html_list_items += "<li>---------------------------------</li>"
+    html_list_items += "<li>"+"SUBTOTAL: "+str(to_usd(billTotal)+"</li>"
+    html_list_items += "<li>"+"SUBTOTAL: "+str(to_usd(taxTotal)+"</li>"
+    html_list_items += "<li>"+"SUBTOTAL: "+str(to_usd(total)+"</li>"
+    html_list_items += "<li>---------------------------------</li>"
+    html_list_items += "<li>THANKS, SEE YOU AGAIN SOON!</li>"
+
+    html_content = f"""
+    <h3>Hello this is your receipt</h3>
+    <p>Date: ____________</p>
+    <ol>
+        {html_list_items}
+    </ol>
+    """
+    print(html_content)
+
+
+    ######################################
+
+  
+    message = Mail(from_email=SENDER_ADDRESS, to_emails=customer_address, subject=subject, html_content=html_content)
+
+    try:
+        response = client.send(message)
+
+        print("RESPONSE:", type(response)) #> <class 'python_http_client.client.Response'>
+        print(response.status_code) #> 202 indicates SUCCESS
+        print(response.body)
+        print(response.headers)
+
+    except Exception as err:
+        print(type(err))
+        print(err)
