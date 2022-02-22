@@ -21,6 +21,12 @@ Activate the virtual environment:
 conda activate shopping-cart-env
 ```
 
+Install sendgrid:
+
+```sh
+pip install sendgrid
+```
+
 ## Usage
 
 ```sh
